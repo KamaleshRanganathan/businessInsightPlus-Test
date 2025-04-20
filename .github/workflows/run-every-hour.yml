@@ -2,7 +2,7 @@ name: News Updater
 on:
   schedule:
     - cron: '0 * * * *'  # Runs at minute 0 of every hour
-  workflow_dispatch:      # Allow manual runs
+  workflow_dispatch:
 
 jobs:
   update-news:
@@ -13,8 +13,7 @@ jobs:
         with:
           node-version: '18'
       - run: npm install axios firebase-admin
-      - run: node news-saver.js
+      - name: Run news saver
+        run: node news-saver.js
         env:
-          FIREBASE_CREDS: ${{ secrets.FIREBASE_CREDS }}
-      - name: Upload creds
-        run: echo "$FIREBASE_CREDS" > firebase-creds.json
+          FIREBASE_CREDS: ${{ secrets.FIREBASE_CREDS }}  # Passes the secret as env variable
