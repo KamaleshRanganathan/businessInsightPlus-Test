@@ -1,7 +1,7 @@
 name: News Updater
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs at minute 0 of every hour
+    - cron: '30 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -12,8 +12,19 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - run: npm install axios firebase-admin
+      - name: Cache Node.js modules
+        id: cache-npm
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install dependencies
+        if: steps.cache-npm.outputs.cache-hit != 'true'
+        run: npm install axios firebase-admin
       - name: Run news saver
-        run: node news-saver.js
+        working-directory: ./server/services
+        run: node news-saver.cjs # Changed filename to .cjs
         env:
-          FIREBASE_CREDS: ${{ secrets.FIREBASE_CREDS }}  # Passes the secret as env variable
+          FIREBASE_CREDS: ${{ secrets.FIREBASE_CREDS }}
