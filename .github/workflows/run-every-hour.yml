@@ -1,30 +1,30 @@
-name: News Updater
-on:
-  schedule:
-    - cron: '30 * * * *'
-  workflow_dispatch:
+# name: News Updater
+# on:
+#   schedule:
+#     - cron: '30 * * * *'
+#   workflow_dispatch:
 
-jobs:
-  update-news:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - name: Cache Node.js modules
-        id: cache-npm
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Install dependencies
-        if: steps.cache-npm.outputs.cache-hit != 'true'
-        run: npm install axios firebase-admin
-      - name: Run news saver
-        working-directory: ./server/services
-        run: node news-saver.cjs # Changed filename to .cjs
-        env:
-          FIREBASE_CREDS: ${{ secrets.FIREBASE_CREDS }}
+# jobs:
+#   update-news:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: '18'
+#       - name: Cache Node.js modules
+#         id: cache-npm
+#         uses: actions/cache@v4
+#         with:
+#           path: node_modules
+#           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+#           restore-keys: |
+#             ${{ runner.os }}-node-
+#       - name: Install dependencies
+#         if: steps.cache-npm.outputs.cache-hit != 'true'
+#         run: npm install axios firebase-admin
+#       - name: Run news saver
+#         working-directory: ./server/services
+#         run: node news-saver.cjs # Changed filename to .cjs
+#         env:
+#           FIREBASE_CREDS: ${{ secrets.FIREBASE_CREDS }}
