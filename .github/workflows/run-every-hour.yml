@@ -1,8 +1,8 @@
-# name: News Updater
-# on:
-#   schedule:
-#     - cron: '30 * * * *'
-#   workflow_dispatch:
+name: News Updater
+on:
+  schedule:
+    - cron: '30 * * * *'
+  workflow_dispatch:
 
 # jobs:
 #   update-news:
