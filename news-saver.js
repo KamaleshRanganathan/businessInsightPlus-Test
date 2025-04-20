@@ -1,8 +1,8 @@
 const admin = require('firebase-admin');
 const axios = require('axios');
 
-// Initialize Firebase
-const serviceAccount = require('./firebase-creds.json');
+// Initialize Firebase using environment variable
+const serviceAccount = JSON.parse(process.env.FIREBASE_CREDS);
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
