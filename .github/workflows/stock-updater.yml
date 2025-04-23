@@ -24,7 +24,7 @@ jobs:
         if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm install axios firebase-admin
       - name: Run stock saver
-        working-directory: ./server/services
+        working-directory: ./
         run: node stock-saver.cjs
         env:
           FIREBASE_CREDS: ${{ secrets.FIREBASE_CREDS }}
